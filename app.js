@@ -1,30 +1,89 @@
+// Sample recipes data
 const recipes = [
-  { id: 1, title: "Pasta", time: 20, difficulty: "easy", description: "Simple pasta", category: "food" },
-  { id: 2, title: "Pizza", time: 60, difficulty: "medium", description: "Cheesy pizza", category: "food" },
-  { id: 3, title: "Burger", time: 30, difficulty: "easy", description: "Juicy burger", category: "food" },
-  { id: 4, title: "Salad", time: 10, difficulty: "easy", description: "Healthy salad", category: "food" },
-  { id: 5, title: "Cake", time: 90, difficulty: "hard", description: "Sweet cake", category: "food" },
-  { id: 6, title: "Soup", time: 25, difficulty: "easy", description: "Hot soup", category: "food" },
-  { id: 7, title: "Noodles", time: 35, difficulty: "medium", description: "Tasty noodles", category: "food" },
-  { id: 8, title: "Steak", time: 120, difficulty: "hard", description: "Grilled steak", category: "food" }
+  { title: "Spaghetti", difficulty: "easy", time: 25 },
+  { title: "Beef Stew", difficulty: "hard", time: 120 },
+  { title: "Salad", difficulty: "easy", time: 10 },
+  { title: "Chicken Curry", difficulty: "medium", time: 60 },
+  { title: "Pancakes", difficulty: "easy", time: 20 },
+  { title: "Lasagna", difficulty: "medium", time: 90 },
+  { title: "Ratatouille", difficulty: "hard", time: 80 },
+  { title: "Omelette", difficulty: "easy", time: 15 }
 ];
 
-const recipeContainer = document.querySelector('#recipe-container');
+// State
+let currentFilter = 'all';
+let currentSort = 'none';
 
-const createRecipeCard = (recipe) => {
-  return `
-    <div class="recipe-card">
+// DOM references
+const recipeContainer = document.getElementById('recipe-container');
+const filterButtons = document.querySelectorAll('#filter-buttons button');
+const sortButtons = document.querySelectorAll('#sort-buttons button');
+
+// Render recipes
+function renderRecipes(recipesToRender) {
+  recipeContainer.innerHTML = '';
+  recipesToRender.forEach(recipe => {
+    const card = document.createElement('div');
+    card.classList.add('recipe-card');
+    card.innerHTML = `
       <h3>${recipe.title}</h3>
-      <p>${recipe.time} min</p>
-      <p class="difficulty ${recipe.difficulty}">${recipe.difficulty}</p>
-      <p>${recipe.description}</p>
-    </div>
-  `;
-};
+      <p>Difficulty: ${recipe.difficulty}</p>
+      <p>Time: ${recipe.time} mins</p>
+    `;
+    recipeContainer.appendChild(card);
+  });
+}
 
-const renderRecipes = (recipesToRender) => {
-  const html = recipesToRender.map(createRecipeCard).join('');
-  recipeContainer.innerHTML = html;
-};
+// Pure filter function
+function applyFilter(recipes, filter) {
+  switch(filter) {
+    case 'easy': return recipes.filter(r => r.difficulty === 'easy');
+    case 'medium': return recipes.filter(r => r.difficulty === 'medium');
+    case 'hard': return recipes.filter(r => r.difficulty === 'hard');
+    case 'quick': return recipes.filter(r => r.time <= 30);
+    case 'all':
+    default: return [...recipes];
+  }
+}
 
-renderRecipes(recipes);
+// Pure sort function
+function applySort(recipes, sort) {
+  switch(sort) {
+    case 'name': return [...recipes].sort((a,b) => a.title.localeCompare(b.title));
+    case 'time': return [...recipes].sort((a,b) => a.time - b.time);
+    case 'none':
+    default: return [...recipes];
+  }
+}
+
+// Update active button states
+function updateActiveButtons() {
+  filterButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === currentFilter));
+  sortButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.sort === currentSort));
+}
+
+// Main update function
+function updateDisplay() {
+  let result = applyFilter(recipes, currentFilter);
+  result = applySort(result, currentSort);
+  renderRecipes(result);
+  updateActiveButtons();
+}
+
+// Event listeners
+filterButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentFilter = btn.dataset.filter;
+    updateDisplay();
+  });
+});
+
+sortButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentSort = btn.dataset.sort;
+    updateDisplay();
+  });
+});
+
+// Initial render
+updateDisplay();

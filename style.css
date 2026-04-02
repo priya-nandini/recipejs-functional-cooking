@@ -1,41 +1,64 @@
-* {
+body {
+  font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial;
-  background: #f5f5f5;
+  background-color: #fafafa;
 }
 
 header {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
   text-align: center;
-  padding: 20px;
+  padding: 2rem 0;
+  background-color: #ff6f61;
+  color: white;
+}
+
+#controls {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem 0;
+  flex-wrap: wrap;
+}
+
+#controls button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #eee;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+#controls button.active {
+  background-color: #ff6f61;
+  color: white;
+}
+
+#controls button:hover {
+  background-color: #ddd;
 }
 
 #recipe-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 1rem;
   justify-content: center;
-  margin-top: 20px;
+  padding: 2rem;
 }
 
 .recipe-card {
-  background: white;
-  padding: 15px;
-  width: 250px;
-  border-radius: 10px;
-  transition: 0.3s;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 200px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.recipe-card:hover {
-  transform: translateY(-5px);
+.recipe-card h3 {
+  margin: 0 0 0.5rem 0;
 }
 
-.difficulty.easy { color: green; }
-.difficulty.medium { color: orange; }
-.difficulty.hard { color: red; }
+.recipe-card p {
+  margin: 0.25rem 0;
+}
