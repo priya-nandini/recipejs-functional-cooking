@@ -1,0 +1,41 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial;
+  background: #f5f5f5;
+}
+
+header {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+#recipe-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.recipe-card {
+  background: white;
+  padding: 15px;
+  width: 250px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.recipe-card:hover {
+  transform: translateY(-5px);
+}
+
+.difficulty.easy { color: green; }
+.difficulty.medium { color: orange; }
+.difficulty.hard { color: red; }
